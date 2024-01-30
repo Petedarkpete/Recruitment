@@ -1,0 +1,34 @@
+services:
+
+  ideonikojobske:
+    container_name: ideonikojobske
+    build: .
+    volumes:
+      - ./IKOJOBSKE:/var/www/html
+    ports:
+      - 9004:80
+      
+    networks:
+      - ikojobnet
+  mysqldbikojobske:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: ikojobskedb
+    restart: unless-stopped
+    ports:
+      - 3355:3306
+    networks:
+      - ikojobnet
+  phpmyadminikojobske:
+    image: phpmyadmin:latest
+    ports:
+      - 9042:80
+    environment:
+      - PMA_ARBITRARY=1
+    networks:
+      - ikojobnet
+networks:
+  ikojobnet:
+    driver: bridge
+    
